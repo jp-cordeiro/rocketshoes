@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrince } from '../../utils/format';
 import { ProductList } from './styles';
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api.get('products').then(({ data }) => {
+      const products = data.map((product) => {
+        return {
+          ...product,
+          priceFormated: formatPrince(product.price),
+        };
+      });
+      console.log(products);
+      setProducts(products);
+    });
+  }, []);
+
   return (
     <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-downshifter-10-masculino/26/HZM-3549-026/HZM-3549-026_zoom1.jpg?ts=1584659244&ims=326x"
-          alt="Tênis"
-        />
-        <strong>Tênis</strong>
-        <span>R$ 111.00</span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={19} color="#333" />
-          </div>
-        </button>
-      </li>
+      {products.map((product) => (
+        <li key={product.id}>
+          <img src={product.image} alt={product.title} />
+          <strong>{product.title}</strong>
+          <span>{product.priceFormated}</span>
+          <button type="button">
+            <div>
+              <MdAddShoppingCart size={19} color="#333" />
+            </div>
+            <span>ADICIONAR AO CARRINHO</span>
+          </button>
+        </li>
+      ))}
     </ProductList>
   );
 }
