@@ -5,7 +5,10 @@ import api from '../../services/api';
 import { formatPrince } from '../../utils/format';
 import { ProductList } from './styles';
 
-function Home(props) {
+import * as CartActions from '../../store/modules/cart/actions';
+import { bindActionCreators } from 'redux';
+
+function Home({ addToCart }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -18,14 +21,10 @@ function Home(props) {
       });
       setProducts(products);
     });
-  }, [props]);
+  }, []);
 
   const handleAddProduct = (product) => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
+    addToCart(product);
   };
 
   return (
@@ -48,4 +47,7 @@ function Home(props) {
   );
 }
 
-export default connect()(Home);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Home);

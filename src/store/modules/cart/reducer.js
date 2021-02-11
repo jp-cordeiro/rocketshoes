@@ -5,7 +5,7 @@ const INITIAL_STATE = [];
 const cart = produce((state, action) => {
   let productIndex;
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case '@cart/ADD':
       productIndex = state.findIndex(
         (product) => product.id === action.product.id
       );
@@ -15,9 +15,8 @@ const cart = produce((state, action) => {
         state.push({ ...action.product, amount: 1 });
       }
       break;
-    case 'REMOVE_FROM_CART':
+    case '@cart/REMOVE':
       productIndex = state.findIndex((product) => product.id === action.id);
-      console.log(productIndex);
       if (productIndex >= 0) {
         state.splice(productIndex, 1);
       }
