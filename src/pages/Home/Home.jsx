@@ -13,7 +13,7 @@ function Home(props) {
       const products = data.map((product) => {
         return {
           ...product,
-          priceFormated: formatPrince(product.price),
+          priceFormatted: formatPrince(product.price),
         };
       });
       setProducts(products);
@@ -34,7 +34,7 @@ function Home(props) {
         <li key={product.id}>
           <img src={product.image} alt={product.title} />
           <strong>{product.title}</strong>
-          <span>{product.priceFormated}</span>
+          <span>{product.priceFormatted}</span>
 
           <button type="button" onClick={() => handleAddProduct(product)}>
             <div>
