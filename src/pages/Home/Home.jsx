@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import api from '../../services/api';
 import { formatPrince } from '../../utils/format';
 import { ProductList } from './styles';
 
-export default function Home() {
+function Home(props) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -15,10 +16,17 @@ export default function Home() {
           priceFormated: formatPrince(product.price),
         };
       });
-      console.log(products);
       setProducts(products);
     });
-  }, []);
+  }, [props]);
+
+  const handleAddProduct = (product) => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+  };
 
   return (
     <ProductList>
@@ -27,7 +35,8 @@ export default function Home() {
           <img src={product.image} alt={product.title} />
           <strong>{product.title}</strong>
           <span>{product.priceFormated}</span>
-          <button type="button">
+
+          <button type="button" onClick={() => handleAddProduct(product)}>
             <div>
               <MdAddShoppingCart size={19} color="#333" />
             </div>
@@ -38,3 +47,5 @@ export default function Home() {
     </ProductList>
   );
 }
+
+export default connect()(Home);
