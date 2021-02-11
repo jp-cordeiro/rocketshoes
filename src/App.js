@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import GlobalStyles from './styles/global';
 import Routes from './routes';
@@ -8,11 +10,13 @@ import Header from './components/Header/Header';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes />
-      <GlobalStyles />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header />
+        <Routes />
+        <GlobalStyles />
+      </BrowserRouter>
+    </Provider>
   );
 }
 
