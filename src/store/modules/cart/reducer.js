@@ -6,12 +6,8 @@ const cart = produce((state, action) => {
   let productIndex;
   switch (action.type) {
     case '@cart/ADD_SUCCESS':
-      productIndex = state.findIndex((product) => product.id === action.id);
-      if (productIndex >= 0) {
-        state[productIndex].amount++;
-      } else {
-        state.push({ ...action.product, amount: 1 });
-      }
+      const { product } = action;
+      state.push(product);
       break;
     case '@cart/REMOVE':
       productIndex = state.findIndex((product) => product.id === action.id);
