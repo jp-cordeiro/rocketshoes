@@ -15,10 +15,7 @@ const cart = produce((state, action) => {
         state.splice(productIndex, 1);
       }
       break;
-    case '@cart/UPDATE_AMOUNT':
-      if (action.amount <= 0) {
-        return;
-      }
+    case '@cart/UPDATE_AMOUNT_SUCCESS':
       productIndex = state.findIndex((product) => product.id === action.id);
       if (productIndex >= 0) {
         state[productIndex].amount = Number(action.amount);
