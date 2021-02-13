@@ -8,7 +8,7 @@ import { ProductList } from './styles';
 import * as CartActions from '../../store/modules/cart/actions';
 import { bindActionCreators } from 'redux';
 
-function Home({ addToCart, amount }) {
+function Home({ addToCartRequest, amount }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -23,8 +23,8 @@ function Home({ addToCart, amount }) {
     });
   }, []);
 
-  const handleAddProduct = (product) => {
-    addToCart(product);
+  const handleAddProduct = (productId) => {
+    addToCartRequest(productId);
   };
 
   return (
@@ -35,7 +35,7 @@ function Home({ addToCart, amount }) {
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
 
-          <button type="button" onClick={() => handleAddProduct(product)}>
+          <button type="button" onClick={() => handleAddProduct(product.id)}>
             <div>
               <MdAddShoppingCart size={19} color="#333" />{' '}
               {amount[product.id] || 0}
