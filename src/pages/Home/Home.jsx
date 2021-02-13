@@ -8,7 +8,7 @@ import { ProductList } from './styles';
 import * as CartActions from '../../store/modules/cart/actions';
 import { bindActionCreators } from 'redux';
 
-function Home({ addToCart }) {
+function Home({ addToCart, amount }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,8 @@ function Home({ addToCart }) {
 
           <button type="button" onClick={() => handleAddProduct(product)}>
             <div>
-              <MdAddShoppingCart size={19} color="#333" />
+              <MdAddShoppingCart size={19} color="#333" />{' '}
+              {amount[product.id] || 0}
             </div>
             <span>ADICIONAR AO CARRINHO</span>
           </button>
@@ -47,7 +48,14 @@ function Home({ addToCart }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  amount: state.cartReducer.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+    return amount;
+  }, {}),
+});
+
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
